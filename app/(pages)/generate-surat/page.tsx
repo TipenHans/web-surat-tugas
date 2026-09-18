@@ -603,14 +603,6 @@ export default function SuratPage() {
                         {form.nuptk || "-"}
                       </td>
                     </tr>
-
-                  </tbody>
-                </table>
-
-                {/* PENUGASAN */}
-
-                <table className="mt-6 w-full">
-                  <tbody>
                     <tr>
                       <td className="w-32 align-top">
                         Penugasan
@@ -680,23 +672,16 @@ export default function SuratPage() {
                       </td>
                     </tr>
 
-                  </tbody>
-                </table>
-
-                {/* MAHASISWA */}
-                {form.mahasiswa.length > 0 && (
-                <table className="mt-5 w-full border-collapse">
-                <tbody>
                     <tr>
-                    <td className="w-[160px] align-top whitespace-nowrap">
+                    <td className="W-32 align-top whitespace-nowrap">
                         Nama Mahasiswa
                     </td>
 
-                    <td className="w-[20px] align-top">
+                    <td className="W-4 align-top">
                         :
                     </td>
 
-                    <td className="align-top">
+                    <td>
                         {form.mahasiswa.map((mhs, index) => (
                         <div
                             key={index}
@@ -710,7 +695,7 @@ export default function SuratPage() {
                             {mhs.nama || "-"}
                             </span>
 
-                            <span className="ml-4 w-[210px] shrink-0 whitespace-nowrap">
+                            <span className="w-[210px] shrink-0 whitespace-nowrap">
                             ({mhs.prodi || "-"}/{mhs.nim || "-"})
                             </span>
                         </div>
@@ -719,7 +704,7 @@ export default function SuratPage() {
                     </tr>
                 </tbody>
                 </table>
-                )}
+                
                 {/* PENUTUP */}
 
                 <p className="mt-6 text-justify">
