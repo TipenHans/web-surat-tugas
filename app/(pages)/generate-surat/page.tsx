@@ -210,7 +210,7 @@ export default function SuratPage() {
       }
 
       const nomorSurat = form.nomorSurat
-        ? `${form.nomorSurat}-SWRIII-IX-2026`
+        ? `${form.nomorSurat}`
         : "Tanpa-Nomor";
 
       const namaKegiatan = form.namaKegiatan
@@ -275,7 +275,7 @@ export default function SuratPage() {
                   onChange={(value) =>
                     handleChange("nomorSurat", value)
                   }
-                  placeholder="123"
+                  placeholder="Nomor"
                 />
               </div>
 
@@ -564,7 +564,7 @@ export default function SuratPage() {
                   </h1>
 
                   <p className="mt-1">
-                    No. {form.nomorSurat + "-SWRIII-IX-2026"}
+                    No. {form.nomorSurat}
                   </p>
                 </div>
 
