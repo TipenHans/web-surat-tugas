@@ -209,12 +209,18 @@ export default function SuratPage() {
         heightLeft -= pageHeight;
       }
 
-      const namaFile = form.nomorSurat
-        ? `Surat-Tugas-${form.nomorSurat.replace(
-            /[\/\\]/g,
-            "-"
-          )}.pdf`
-        : "Surat-Tugas.pdf";
+      const nomorSurat = form.nomorSurat
+        ? `${form.nomorSurat}-SWRIII-IX-2026`
+        : "Tanpa-Nomor";
+
+      const namaKegiatan = form.namaKegiatan
+        ? form.namaKegiatan
+            .replace(/[\/\\:*?"<>|]/g, "-")
+            .trim()
+        : "Nama-Kegiatan";
+
+
+      const namaFile = `Surat-Tugas-${nomorSurat} (${namaKegiatan} - Dosen).pdf`;
 
       pdf.save(namaFile);
     } catch (error) {
@@ -264,7 +270,7 @@ export default function SuratPage() {
                   onChange={(value) =>
                     handleChange("nomorSurat", value)
                   }
-                  placeholder="Contoh: 419/SWRIII/VIII/2026"
+                  placeholder="123"
                 />
               </div>
 
@@ -553,7 +559,7 @@ export default function SuratPage() {
                   </h1>
 
                   <p className="mt-1">
-                    No. {form.nomorSurat || "-"}
+                    No. {form.nomorSurat + "-SWRIII-IX-2026"}
                   </p>
                 </div>
 

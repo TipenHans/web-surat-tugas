@@ -240,12 +240,23 @@ export default function SuratPage() {
       }
     }
 
-    const namaFile = form.nomorSurat
-      ? `Surat-Tugas-${form.nomorSurat.replace(
-          /[\/\\]/g,
-          "-"
-        )}.pdf`
-      : "Surat-Tugas.pdf";
+      const nomorSurat = form.nomorSurat
+        ? `${form.nomorSurat}-SWRIII-IX-2026`
+        : "Tanpa-Nomor";
+
+      const namaKegiatan = form.namaLomba
+        ? form.namaLomba
+            .replace(/[\/\\:*?"<>|]/g, "-")
+            .trim()
+        : "Nama-Kegiatan";
+
+      const namaMahasiswa = form.mahasiswa[0]?.nama
+        ? form.mahasiswa[0].nama
+            .replace(/[\/\\:*?"<>|]/g, "-")
+            .trim()
+        : "Mahasiswa";
+
+      const namaFile = `Surat-Tugas-${nomorSurat} (${namaKegiatan} - ${namaMahasiswa}).pdf`;
 
     pdf.save(namaFile);
   } catch (error) {
@@ -295,7 +306,7 @@ export default function SuratPage() {
                   onChange={(value) =>
                     handleChange("nomorSurat", value)
                   }
-                  placeholder="Nomor Surat"
+                  placeholder="123"
                 />
               </div>
 
@@ -595,7 +606,7 @@ export default function SuratPage() {
                   </h1>
 
                   <p className="mt-1">
-                    No. {form.nomorSurat || "-"}
+                    No. {form.nomorSurat + "-SWRIII-IX-2026"}
                   </p>
                 </div>
 
