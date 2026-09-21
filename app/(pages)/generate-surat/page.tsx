@@ -217,10 +217,15 @@ export default function SuratPage() {
         ? form.namaKegiatan
             .replace(/[\/\\:*?"<>|]/g, "-")
             .trim()
-        : "Nama-Kegiatan";
+        : "Lomba";
+      const namaDosen = form.nama
+        ? form.nama
+            .replace(/[\/\\:*?"<>|]/g, "-")
+            .trim()
+        : "Dosen";
 
 
-      const namaFile = `Surat-Tugas-${nomorSurat} (${namaKegiatan} - Dosen).pdf`;
+      const namaFile = `Surat-Tugas-${nomorSurat} (${namaKegiatan} - ${namaDosen}).pdf`;
 
       pdf.save(namaFile);
     } catch (error) {
