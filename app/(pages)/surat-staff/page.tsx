@@ -430,15 +430,21 @@ export default function SuratPage() {
 
               <div 
                 id="surat-document"
-                className="mx-auto max-w-[794px] bg-white px-16 py-16 text-[12px] leading-relaxed text-black shadow-lg"
+                className="mx-auto flex min-h-[1100px] w-[794px] flex-col bg-white px-20 pt-8 pb-5 text-[14px] leading-relaxed text-black shadow-lg"
                 style={{
                   fontFamily: '"Times New Roman", Times, serif',
                 }}
                 >
 
                 {/* JUDUL */}
-
-                <div className="text-center mt-12">
+                <div className="flex justify-end">
+                    <img
+                        src="/umn.png"
+                        alt="Logo"
+                        className="h-24 w-auto object-contain"
+                    />
+                    </div>
+                <div className="text-center">
                   <h1 className="text-[20px] underline font-bold">
                     SURAT TUGAS
                   </h1>
@@ -591,6 +597,9 @@ export default function SuratPage() {
                     {form.jabatan1|| "-"}
                   </p>
 
+                </div>
+                <div className="mt-auto shrink-0 text-center text-[10px] leading-tight text-[#1f497d] font-medium">
+                Kampus UMN, Scientia Garden | Jl. Boulevard Gading Serpong – Tangerang | P. +62 21 5422 0808 | F. +62 21 5422 0800 | www.umn.ac.id
                 </div>
               </div>
             )}
