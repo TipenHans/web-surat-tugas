@@ -520,7 +520,7 @@ export default function SuratPage() {
                       <td className="w-4 align-top">
                         :
                       </td>
-                      <td>
+                      <td className="align-top min-w-0 break-words whitespace-normal">
                         {form.tugas || "-"}
                       </td>
                     </tr>
@@ -532,7 +532,7 @@ export default function SuratPage() {
                       <td className="align-top">
                         :
                       </td>
-                      <td>
+                      <td className="align-top min-w-0 break-words whitespace-normal">
                         {form.tempat || "-"}
                       </td>
                     </tr>
@@ -544,7 +544,7 @@ export default function SuratPage() {
                       <td className="align-top">
                         :
                       </td>
-                      <td>
+                      <td className="align-top min-w-0 break-words whitespace-normal">
                         {form.penyelenggara || "-"}
                       </td>
                     </tr>
@@ -558,16 +558,13 @@ export default function SuratPage() {
                       </td>
                       <td>
                         {form.tanggalMulai
-                          ? formatTanggal(
-                              form.tanggalMulai
-                            )
-                          : "-"}
+                            ? formatTanggal(form.tanggalMulai)
+                            : "-"}
 
                         {form.tanggalSelesai &&
-                          ` s.d. ${formatTanggal(
-                            form.tanggalSelesai
-                          )}`}
-                      </td>
+                            form.tanggalSelesai !== form.tanggalMulai &&
+                            ` s.d. ${formatTanggal(form.tanggalSelesai)}`}
+                        </td>
                     </tr>
                 </tbody>
                 </table>
@@ -585,10 +582,13 @@ export default function SuratPage() {
                   <p>Yang memberi tugas,</p>
 
 
-                  <div className="h-16" />
+                  <div className="h-12" />
 
-                  <p className="font-semibold">
+                  <p className="font-semibold underline">
                     {form.nama1|| "-"}
+                  </p>
+                  <p>
+                    {form.jabatan1|| "-"}
                   </p>
 
                 </div>

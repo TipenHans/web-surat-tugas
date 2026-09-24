@@ -682,16 +682,13 @@ export default function SuratPage() {
                       </td>
                       <td>
                         {form.tanggalMulai
-                          ? formatTanggal(
-                              form.tanggalMulai
-                            )
-                          : "-"}
+                            ? formatTanggal(form.tanggalMulai)
+                            : "-"}
 
                         {form.tanggalSelesai &&
-                          ` s.d. ${formatTanggal(
-                            form.tanggalSelesai
-                          )}`}
-                      </td>
+                            form.tanggalSelesai !== form.tanggalMulai &&
+                            ` s.d. ${formatTanggal(form.tanggalSelesai)}`}
+                        </td>
                     </tr>
 
                     <tr>
