@@ -1,49 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Link from "next/link";
 
-type Mahasiswa = {
-  nama: string;
-  prodi: string;
-  nim: string;
-};
 
 type FormData = {
   nomorSurat: string;
   tanggalSurat: string;
 
-  nama: string;
-  jabatan: string;
-  nuptk: string;
+  nama1: string;
+  jabatan1: string;
+  nama2: string;
+  jabatan2: string;
 
-  penugasan: string;
-  namaKegiatan: string;
-  tempatKegiatan: string;
+  divisi: string;
+  tugas: string;
+  tempat: string;
+  penyelenggara: string;
 
   tanggalMulai: string;
   tanggalSelesai: string;
-
-  tingkat: string;
-
-  mahasiswa: Mahasiswa[];
-};
-
-const bulanRomawi: Record<number, string> = {
-  1: "I",
-  2: "II",
-  3: "III",
-  4: "IV",
-  5: "V",
-  6: "VI",
-  7: "VII",
-  8: "VIII",
-  9: "IX",
-  10: "X",
-  11: "XI",
-  12: "XII",
 };
 
 function formatTanggal(tanggal: string) {
@@ -66,20 +44,18 @@ export default function SuratPage() {
     nomorSurat: "",
     tanggalSurat: new Date().toISOString().split("T")[0],
 
-    nama: "",
-    jabatan: "",
-    nuptk: "",
-
-    penugasan: "",
-    namaKegiatan: "",
-    tempatKegiatan: "",
+    nama1: "",
+    jabatan1: "",
+    nama2: "",
+    jabatan2: "",
+    
+    divisi: "",
+    tugas: "",
+    tempat: "",
+    penyelenggara: "",
 
     tanggalMulai: "",
     tanggalSelesai: "",
-
-    tingkat: "Internasional",
-
-    mahasiswa: [],
   });
 
   function handleChange(
@@ -89,47 +65,6 @@ export default function SuratPage() {
     setForm((prev) => ({
       ...prev,
       [field]: value,
-    }));
-  }
-
-  function handleMahasiswaChange(
-    index: number,
-    field: keyof Mahasiswa,
-    value: string
-  ) {
-    const mahasiswa = [...form.mahasiswa];
-
-    mahasiswa[index] = {
-      ...mahasiswa[index],
-      [field]: value,
-    };
-
-    setForm((prev) => ({
-      ...prev,
-      mahasiswa,
-    }));
-  }
-
-  function tambahMahasiswa() {
-    setForm((prev) => ({
-      ...prev,
-      mahasiswa: [
-        ...prev.mahasiswa,
-        {
-          nama: "",
-          prodi: "",
-          nim: "",
-        },
-      ],
-    }));
-  }
-
-  function hapusMahasiswa(index: number) {
-    setForm((prev) => ({
-      ...prev,
-      mahasiswa: prev.mahasiswa.filter(
-        (_, i) => i !== index
-      ),
     }));
   }
 
@@ -214,26 +149,26 @@ export default function SuratPage() {
         ? `${form.nomorSurat}`
         : "Tanpa-Nomor";
 
-      const namaKegiatan = form.namaKegiatan
-        ? form.namaKegiatan
+      const namaKegiatan = form.tugas
+        ? form.tugas
             .replace(/[\/\\:*?"<>|]/g, "-")
             .trim()
-        : "Lomba";
-      const namaDosen = form.nama
-        ? form.nama
+        : "Tugas";
+      const namaStaff = form.nama2
+        ? form.nama2
             .replace(/[\/\\:*?"<>|]/g, "-")
             .trim()
-        : "Dosen";
+        : "NamaStaff";
 
 
-      const namaFile = `Surat-Tugas-${nomorSurat} (${namaKegiatan} - ${namaDosen}).pdf`;
+      const namaFile = `Surat-Tugas-${nomorSurat} (${namaKegiatan} - ${namaStaff}).pdf`;
 
       pdf.save(namaFile);
     } catch (error) {
       console.error("Gagal membuat PDF:", error);
 
       alert(
-        "Gagal membuat PDF. Silakan buka Console browser untuk melihat detail error."
+        "Gagal membuat PDF."
       );
     }
   }
@@ -327,6 +262,31 @@ export default function SuratPage() {
             {/* DATA ORANG */}
 
             <h2 className="mb-4 text-base font-semibold text-gray-900">
+              Data yang Menugaskan
+            </h2>
+
+            <div className="space-y-4">
+
+              <Input
+                label="Nama"
+                value={form.nama1}
+                onChange={(value) =>
+                  handleChange("nama1", value)
+                }
+                placeholder="Nama lengkap"
+              />
+
+              <Input
+                label="Jabatan"
+                value={form.jabatan1}
+                onChange={(value) =>
+                  handleChange("jabatan1", value)
+                }
+                placeholder="Contoh: Student Engagement"
+              />
+            </div>
+
+            <h2 className="mb-4 text-base font-semibold text-gray-900">
               Data yang Ditugaskan
             </h2>
 
@@ -334,31 +294,21 @@ export default function SuratPage() {
 
               <Input
                 label="Nama"
-                value={form.nama}
+                value={form.nama2}
                 onChange={(value) =>
-                  handleChange("nama", value)
+                  handleChange("nama2", value)
                 }
                 placeholder="Nama lengkap"
               />
 
               <Input
-                label="Jabatan"
-                value={form.jabatan}
+                label="Divisi"
+                value={form.jabatan2}
                 onChange={(value) =>
-                  handleChange("jabatan", value)
+                  handleChange("jabatan2", value)
                 }
-                placeholder="Contoh: Dosen Program Studi Arsitektur"
+                placeholder="Contoh: Student Engagement"
               />
-
-              <Input
-                label="NUPTK"
-                value={form.nuptk}
-                onChange={(value) =>
-                  handleChange("nuptk", value)
-                }
-                placeholder="Nomor NUPTK"
-              />
-
             </div>
 
             <hr className="my-6" />
@@ -372,36 +322,36 @@ export default function SuratPage() {
             <div className="space-y-4">
 
               <Input
-                label="Penugasan / Peran"
-                value={form.penugasan}
+                label="Tugas yang diberikan"
+                value={form.tugas}
                 onChange={(value) =>
-                  handleChange("penugasan", value)
+                  handleChange("tugas", value)
                 }
                 placeholder="Contoh: Dosen Pendamping Tim Mahasiswa"
               />
 
               <Input
-                label="Nama Kegiatan"
-                value={form.namaKegiatan}
+                label="Tempat Kegiatan"
+                value={form.tempat}
                 onChange={(value) =>
                   handleChange(
-                    "namaKegiatan",
+                    "tempat",
                     value
                   )
                 }
-                placeholder="Nama kegiatan"
+                placeholder="Tempat kegiatan"
               />
 
               <Input
-                label="Tempat Kegiatan"
-                value={form.tempatKegiatan}
+                label="Penyelenggara"
+                value={form.penyelenggara}
                 onChange={(value) =>
                   handleChange(
-                    "tempatKegiatan",
+                    "penyelenggara",
                     value
                   )
                 }
-                placeholder="Contoh: Bali, Indonesia"
+                placeholder="Contoh: Universitas Multimedia Nusantara"
               />
 
               <div className="grid grid-cols-2 gap-3">
@@ -441,102 +391,9 @@ export default function SuratPage() {
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                   />
                 </div>
-
               </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Tingkat
-                </label>
-
-                <select
-                  value={form.tingkat}
-                  onChange={(e) =>
-                    handleChange(
-                      "tingkat",
-                      e.target.value
-                    )
-                  }
-                  className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
-                >
-                  <option>Internasional</option>
-                  <option>Nasional</option>
-                  <option>Regional</option>
-                  <option>Universitas</option>
-\                </select>
-              </div>
-
             </div>
 
-            <hr className="my-6" />
-
-            {/* MAHASISWA */}
-
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-semibold text-gray-900">
-                Data Mahasiswa
-              </h2>
-
-              <button
-                type="button"
-                onClick={tambahMahasiswa}
-                className="text-sm font-medium text-blue-600 hover:text-blue-700"
-              >
-                + Tambah
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              {form.mahasiswa.map((mhs, index) => (
-                <div
-                  key={index}
-                  className="rounded-lg border border-gray-200 p-4"
-                >
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-gray-700">
-                      Mahasiswa {index + 1}
-                    </span>
-
-                    <button
-                      type="button"
-                      onClick={() => hapusMahasiswa(index)}
-                      className="text-xs text-red-500"
-                    >
-                      Hapus
-                    </button>
-                  </div>
-
-                  <div className="space-y-3">
-                    <Input
-                      label="Nama"
-                      value={mhs.nama}
-                      onChange={(value) =>
-                        handleMahasiswaChange(index, "nama", value)
-                      }
-                      placeholder="Nama mahasiswa"
-                    />
-
-                    <Input
-                      label="Program Studi"
-                      value={mhs.prodi}
-                      onChange={(value) =>
-                        handleMahasiswaChange(index, "prodi", value)
-                      }
-                      placeholder="Contoh: Informatika"
-                    />
-
-                    <Input
-                      label="NIM"
-                      value={mhs.nim}
-                      onChange={(value) =>
-                        handleMahasiswaChange(index, "nim", value)
-                      }
-                      placeholder="Nomor mahasiswa"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
             {/* BUTTON */}
 
             <button
@@ -594,12 +451,12 @@ export default function SuratPage() {
                 {/* PEMBUKA */}
 
                 <p className="mt-8 text-justify">
-                  Dalam rangka meningkatkan pembimbingan prestasi dan pengembangan <i>soft skill</i> mahasiswa, maka Wakil Rektor bidang <i>Student Engagement</i>, <i>Employability</i>, dan <i>Entrepreneurship</i> Universitas Multimedia Nusantara menugaskan nama dibawah ini:
+                  Yang menugaskan :
                 </p>
 
                 {/* DATA ORANG */}
 
-                <table className="mt-5 w-full">
+                <table className="ml-4 w-full">
                   <tbody>
 
                     <tr>
@@ -610,7 +467,7 @@ export default function SuratPage() {
                         :
                       </td>
                       <td>
-                        {form.nama || "-"}
+                        {form.nama1|| "-"}
                       </td>
                     </tr>
 
@@ -622,60 +479,79 @@ export default function SuratPage() {
                         :
                       </td>
                       <td>
-                        {form.jabatan || "-"}
+                        {form.jabatan1 || "-"}
                       </td>
                     </tr>
+                    </tbody>
+                </table>
 
-                    <tr>
-                      <td className="align-top">
-                        NUPTK
-                      </td>
-                      <td className="align-top">
-                        :
-                      </td>
-                      <td>
-                        {form.nuptk || "-"}
-                      </td>
-                    </tr>
+                <p className="mt-8 text-justify">
+                  Yang diberi tugas :
+                </p>
+                <table className="ml-4 w-full">
+                  <tbody>
                     <tr>
                       <td className="w-32 align-top">
-                        Penugasan
+                        Nama
                       </td>
                       <td className="w-4 align-top">
                         :
                       </td>
                       <td>
-                        {form.penugasan || "-"}
+                        {form.nama2|| "-"}
                       </td>
                     </tr>
 
                     <tr>
                       <td className="align-top">
-                        Nama Kegiatan
+                        Divisi
                       </td>
                       <td className="align-top">
                         :
                       </td>
                       <td>
-                        {form.namaKegiatan || "-"}
+                        {form.jabatan2 || "-"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-32 align-top">
+                        Tugas yang diberikan
+                      </td>
+                      <td className="w-4 align-top">
+                        :
+                      </td>
+                      <td>
+                        {form.tugas || "-"}
                       </td>
                     </tr>
 
                     <tr>
                       <td className="align-top">
-                        Tempat Kegiatan
+                        Tempat
                       </td>
                       <td className="align-top">
                         :
                       </td>
                       <td>
-                        {form.tempatKegiatan || "-"}
+                        {form.tempat || "-"}
                       </td>
                     </tr>
 
                     <tr>
                       <td className="align-top">
-                        Tanggal Kegiatan
+                        Penyelenggara
+                      </td>
+                      <td className="align-top">
+                        :
+                      </td>
+                      <td>
+                        {form.penyelenggara || "-"}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="align-top">
+                        Lama Tugas
                       </td>
                       <td className="align-top">
                         :
@@ -693,58 +569,8 @@ export default function SuratPage() {
                           )}`}
                       </td>
                     </tr>
-
-                    <tr>
-                      <td className="align-top">
-                        Tingkat
-                      </td>
-                      <td className="align-top">
-                        :
-                      </td>
-                      <td>
-                        {form.tingkat}
-                      </td>
-                    </tr>
-
-                    <tr>
-                    <td className="W-32 align-top whitespace-nowrap">
-                        Nama Mahasiswa
-                    </td>
-
-                    <td className="W-4 align-top">
-                        :
-                    </td>
-
-                    <td>
-                        {form.mahasiswa.map((mhs, index) => (
-                        <div
-                            key={index}
-                            className="flex"
-                        >
-                            <span className="w-[28px] shrink-0">
-                            {index + 1}.
-                            </span>
-
-                            <span className="min-w-0 flex-1">
-                            {mhs.nama || "-"}
-                            </span>
-
-                            <span className="w-[210px] shrink-0 whitespace-nowrap">
-                            ({mhs.prodi || "-"}/{mhs.nim || "-"})
-                            </span>
-                        </div>
-                        ))}
-                    </td>
-                    </tr>
                 </tbody>
                 </table>
-                
-                {/* PENUTUP */}
-
-                <p className="mt-6 text-justify">
-                  Demikian surat tugas ini disusun agar
-                  dapat dipergunakan sebagaimana mestinya.
-                </p>
 
                 {/* TANDA TANGAN */}
 
@@ -756,18 +582,13 @@ export default function SuratPage() {
                       form.tanggalSurat
                     )}
                   </p>
+                  <p>Yang memberi tugas,</p>
 
 
                   <div className="h-16" />
 
-                  <p className="font-semibold underline">
-                    Ika Yanuarti, S.E., M.S.F., Ph.D.
-                  </p>
-                  <p>
-                    Wakil Rektor Bidang <i>Student Engagement</i>,
-                  </p>
-                  <p>
-                    <i>Employability</i>, & <i>Entrepreneurship</i>
+                  <p className="font-semibold">
+                    {form.nama1|| "-"}
                   </p>
 
                 </div>

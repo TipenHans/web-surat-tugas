@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -56,7 +57,6 @@ function formatTanggal(tanggal: string) {
 }
 
 export default function SuratPage() {
-  
   const [showPreview, setShowPreview] = useState(false);
 
   const [form, setForm] = useState<FormData>({
@@ -273,7 +273,7 @@ export default function SuratPage() {
       <div className="mx-auto max-w-6xl">
 
         {/* HEADER */}
-        <div className="mb-8">
+        <div className="mb-4">
           <h1 className="text-2xl font-bold text-gray-900">
             Generate Surat Tugas
           </h1>
@@ -282,9 +282,32 @@ export default function SuratPage() {
             Isi data berikut untuk membuat surat tugas
             secara otomatis.
           </p>
+          
+        </div>
+        <div className="flex gap-2">
+          <Link
+            href="/generate-surat"
+            className="rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900"
+          >
+            Dosen
+          </Link>
+
+          <Link
+            href="/surat-tugas-mahasiswa"
+            className="rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900"
+          >
+            Mahasiswa
+          </Link>
+
+          <Link
+            href="/surat-staff"
+            className="rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900"
+          >
+            Staff
+          </Link>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[420px_1fr]">
+        <div className="mt-4 grid gap-8 lg:grid-cols-[420px_1fr]">
 
           {/* ================= FORM ================= */}
 
