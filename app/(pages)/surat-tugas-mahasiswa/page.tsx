@@ -12,6 +12,7 @@ type Mahasiswa = {
 };
 
 type FormData = {
+  modeCetak: string;
   nomorSurat: string;
   tanggalSurat: string;
 
@@ -60,6 +61,7 @@ export default function SuratPage() {
   const [showPreview, setShowPreview] = useState(false);
 
   const [form, setForm] = useState<FormData>({
+    modeCetak: "basah",
     nomorSurat: "",
     tanggalSurat: new Date().toISOString().split("T")[0],
 
@@ -313,6 +315,41 @@ export default function SuratPage() {
 
           <section className="h-fit rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
 
+                      <div className="grid grid-cols-2 gap-3">
+                    <button
+                    type="button"
+                    onClick={() =>
+                        setForm((prev) => ({
+                        ...prev,
+                        modeCetak: "basah",
+                        }))
+                    }
+                    className={`rounded-lg border px-4 py-3 text-left transition ${
+                        form.modeCetak === "basah"
+                        ? "border-[#000000] bg-[#527A9B]/10 text-[#000000]"
+                        : "border-gray-300 bg-white text-black"
+                    }`}
+                    >
+                    <p className="font-semibold">Cetak Basah</p>
+                    </button>
+
+                    <button
+                    type="button"
+                    onClick={() =>
+                        setForm((prev) => ({
+                        ...prev,
+                        modeCetak: "digital",
+                        }))
+                    }
+                    className={`rounded-lg border px-4 py-3 text-left transition ${
+                        form.modeCetak === "digital"
+                        ? "border-[#000000] bg-[#527A9B]/10 text-[#000000]"
+                        : "border-gray-300 bg-white text-black"
+                    }`}
+                    >
+                    <p className="font-semibold">Cetak Digital</p>
+                    </button>
+                </div>
             {/* DATA SURAT */}
 
             <h2 className="mb-4 text-base font-semibold text-gray-900">
@@ -615,7 +652,7 @@ export default function SuratPage() {
               <div>
               <div 
                 id="surat-document"
-                className="mx-auto max-w-[794px] bg-white px-16 py-16 text-[12px] leading-relaxed text-black shadow-lg"
+                className="mx-auto flex min-h-[1100px] w-[794px] flex-col bg-white px-20 pt-8 pb-5 text-[14px] leading-relaxed text-black shadow-lg"
                 style={{
                   fontFamily: '"Times New Roman", Times, serif',
                 }}
@@ -623,8 +660,17 @@ export default function SuratPage() {
 
                 {/* JUDUL */}
 
-                <div className="text-center mt-12">
-                  <h1 className="text-[20px] underline font-bold">
+                {form.modeCetak === "digital" && (
+                    <div className="flex justify-end mr-[-80]">
+                        <img
+                        src="/umn.png"
+                        alt="Logo"
+                        className="h-40 w-auto object-contain"
+                        />
+                    </div>
+                    )}
+                <div className="text-center">
+                  <h1 className={`text-[20px] font-bold underline ${form.modeCetak === "digital" ? "mt-[-64px]" : "mt-24"}`}>
                     SURAT TUGAS
                   </h1>
 
@@ -777,8 +823,12 @@ export default function SuratPage() {
                   </p>
 
                 </div>
+              {form.modeCetak === "digital" && (
+                    <div className="mt-auto shrink-0 text-center text-[10px] leading-tight text-[#1f497d] font-medium">
+                        Kampus UMN, Scientia Garden | Jl. Boulevard Gading Serpong – Tangerang | P. +62 21 5422 0808 | F. +62 21 5422 0800 | www.umn.ac.id
+                    </div>
+                    )}
               </div>
-              
               {form.mahasiswa.length > 6 && (
                 <div
                   id="surat-lampiran"
@@ -836,6 +886,7 @@ export default function SuratPage() {
                   </table>
                 </div>
               )}
+              
               </div>
             )}
             <div className="mt-12 flex gap-3 border-t pt-5">

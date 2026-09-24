@@ -7,21 +7,22 @@ import Link from "next/link";
 
 
 type FormData = {
-  nomorSurat: string;
-  tanggalSurat: string;
+    modeCetak: string;
+    nomorSurat: string;
+    tanggalSurat: string;
 
-  nama1: string;
-  jabatan1: string;
-  nama2: string;
-  jabatan2: string;
+    nama1: string;
+    jabatan1: string;
+    nama2: string;
+    jabatan2: string;
 
-  divisi: string;
-  tugas: string;
-  tempat: string;
-  penyelenggara: string;
+    divisi: string;
+    tugas: string;
+    tempat: string;
+    penyelenggara: string;
 
-  tanggalMulai: string;
-  tanggalSelesai: string;
+    tanggalMulai: string;
+    tanggalSelesai: string;
 };
 
 function formatTanggal(tanggal: string) {
@@ -41,6 +42,7 @@ export default function SuratPage() {
   const [showPreview, setShowPreview] = useState(false);
 
   const [form, setForm] = useState<FormData>({
+    modeCetak: "basah",
     nomorSurat: "",
     tanggalSurat: new Date().toISOString().split("T")[0],
 
@@ -218,8 +220,48 @@ export default function SuratPage() {
           <section className="h-fit rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
 
             {/* DATA SURAT */}
+            <div>
+                <label className="mb-2 block text-sm font-medium ">
+                    Jenis Cetak
+                </label>
 
-            <h2 className="mb-4 text-base font-semibold text-gray-900">
+                <div className="grid grid-cols-2 gap-3">
+                    <button
+                    type="button"
+                    onClick={() =>
+                        setForm((prev) => ({
+                        ...prev,
+                        modeCetak: "basah",
+                        }))
+                    }
+                    className={`rounded-lg border px-4 py-3 text-left transition ${
+                        form.modeCetak === "basah"
+                        ? "border-[#000000] bg-[#527A9B]/10 text-[#000000]"
+                        : "border-gray-300 bg-white text-black"
+                    }`}
+                    >
+                    <p className="font-semibold">Cetak Basah</p>
+                    </button>
+
+                    <button
+                    type="button"
+                    onClick={() =>
+                        setForm((prev) => ({
+                        ...prev,
+                        modeCetak: "digital",
+                        }))
+                    }
+                    className={`rounded-lg border px-4 py-3 text-left transition ${
+                        form.modeCetak === "digital"
+                        ? "border-[#000000] bg-[#527A9B]/10 text-[#000000]"
+                        : "border-gray-300 bg-white text-black"
+                    }`}
+                    >
+                    <p className="font-semibold">Cetak Digital</p>
+                    </button>
+                </div>
+                </div>
+            <h2 className="mt-4 mb-4 text-base font-semibold text-gray-900">
               Data Surat
             </h2>
 
@@ -437,15 +479,17 @@ export default function SuratPage() {
                 >
 
                 {/* JUDUL */}
-                <div className="flex justify-end">
-                    <img
+                {form.modeCetak === "digital" && (
+                    <div className="flex justify-end mr-[-80]">
+                        <img
                         src="/umn.png"
                         alt="Logo"
-                        className="h-24 w-auto object-contain"
-                    />
+                        className="h-40 w-auto object-contain"
+                        />
                     </div>
+                    )}
                 <div className="text-center">
-                  <h1 className="text-[20px] underline font-bold">
+                  <h1 className={`text-[20px] font-bold underline ${form.modeCetak === "digital" ? "mt-[-64px]" : "mt-24"}`}>
                     SURAT TUGAS
                   </h1>
 
@@ -598,9 +642,11 @@ export default function SuratPage() {
                   </p>
 
                 </div>
-                <div className="mt-auto shrink-0 text-center text-[10px] leading-tight text-[#1f497d] font-medium">
-                Kampus UMN, Scientia Garden | Jl. Boulevard Gading Serpong – Tangerang | P. +62 21 5422 0808 | F. +62 21 5422 0800 | www.umn.ac.id
-                </div>
+                {form.modeCetak === "digital" && (
+                    <div className="mt-auto shrink-0 text-center text-[10px] leading-tight text-[#1f497d] font-medium">
+                        Kampus UMN, Scientia Garden | Jl. Boulevard Gading Serpong – Tangerang | P. +62 21 5422 0808 | F. +62 21 5422 0800 | www.umn.ac.id
+                    </div>
+                    )}
               </div>
             )}
             <div className="mt-12 flex gap-3 border-t pt-5">
